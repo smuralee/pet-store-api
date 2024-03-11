@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 Suraj Muraleedharan
+ * Copyright 2024 Suraj Muraleedharan
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.repository;
+package com.example.util;
 
-import com.example.entity.Pet;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface PetsRepository extends JpaRepository<Pet, Long> {
-
+public final class Constants {
+    public final static String PETS_GET_ALL_INVOCATIONS = "pets_get_all";
+    public final static String PETS_GET_BY_ID_INVOCATIONS = "pets_get_by_id";
+    public final static String PETS_POST_INVOCATIONS = "pets_post";
+    public final static String PETS_UPDATE_INVOCATIONS = "pets_update";
+    public final static String PETS_DELETE_INVOCATIONS = "pets_delete";
 }

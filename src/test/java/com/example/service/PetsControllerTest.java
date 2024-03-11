@@ -1,24 +1,26 @@
 /**
  * Copyright 2020 Suraj Muraleedharan
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.example.service;
 
 import com.example.entity.Pet;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.repository.PetsRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,25 +51,29 @@ class PetsControllerTest {
     @Spy
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Spy
+    private List<Pet> list;
+
+    @MockBean
+    private MeterRegistry registry;
 
     @MockBean
     private PetsRepository repository;
 
-    @Spy
-    private List<Pet> list;
+    @Autowired
+    private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
 
         list = Arrays.asList(
                 new Pet(1L, "Tom", "German Shepherd", 1),
-                new Pet(2L, "Emily","Siberian Husky", 2),
+                new Pet(2L, "Emily", "Siberian Husky", 2),
                 new Pet(3L, "Catherine", "Siamese Cat", 3),
                 new Pet(4L, "Richard", "Persian Cat", 4)
         );
-
+        Counter counter = mock(Counter.class);
+        when(registry.counter(any(String.class))).thenReturn(counter);
     }
 
     @Test
@@ -76,10 +82,10 @@ class PetsControllerTest {
         when(repository.findAll()).thenReturn(list);
 
         this.mockMvc.perform(
-                MockMvcRequestBuilders.get("/pets")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-        )
+                        MockMvcRequestBuilders.get("/pets")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andExpect(
                         content()
@@ -102,10 +108,10 @@ class PetsControllerTest {
         when(repository.findById(Mockito.anyLong())).thenReturn(pet);
 
         this.mockMvc.perform(
-                MockMvcRequestBuilders.get("/pets/".concat(String.valueOf(selectedId)))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-        )
+                        MockMvcRequestBuilders.get("/pets/".concat(String.valueOf(selectedId)))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andExpect(
                         content()
@@ -136,11 +142,11 @@ class PetsControllerTest {
         when(repository.save(Mockito.any(Pet.class))).thenReturn(response);
 
         this.mockMvc.perform(
-                MockMvcRequestBuilders.post("/pets")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(payload))
-        )
+                        MockMvcRequestBuilders.post("/pets")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(payload))
+                )
                 .andExpect(status().isOk())
                 .andExpect(
                         content()
@@ -178,11 +184,11 @@ class PetsControllerTest {
         when(repository.save(Mockito.any(Pet.class))).thenReturn(response);
 
         this.mockMvc.perform(
-                MockMvcRequestBuilders.put("/pets/".concat(String.valueOf(selectedId)))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(payload))
-        )
+                        MockMvcRequestBuilders.put("/pets/".concat(String.valueOf(selectedId)))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(payload))
+                )
                 .andExpect(status().isOk())
                 .andExpect(
                         content()
@@ -199,10 +205,10 @@ class PetsControllerTest {
     void deleteById(final Long selectedId) throws Exception {
 
         this.mockMvc.perform(
-                MockMvcRequestBuilders.delete("/pets/".concat(String.valueOf(selectedId)))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-        )
+                        MockMvcRequestBuilders.delete("/pets/".concat(String.valueOf(selectedId)))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk());
 
         // Verify the method is called just once
