@@ -1,4 +1,4 @@
-# PetStore API
+# Pets API
 
 - Endpoint : `/pets`
     - Supported operations : **GET**, **POST**, **PUT**, **DELETE**
@@ -7,4 +7,10 @@
 
 ```shell
 mvn package
+```
+
+## Create container registry
+
+```shell
+./build.sh
 ```
