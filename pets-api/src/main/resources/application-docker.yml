@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: pets-api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres-db:5432/pet-store
+    username: pet-store
+    password: pa55w0rd
+  jpa:
+    show-sql: true
+server:
+  port: 8080
+logging:
+  level:
+    root: INFO
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+otel:
+  propagators:
+    - tracecontext
+  resource:
+    attributes:
+      environment: docker
