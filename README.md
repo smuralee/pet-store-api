@@ -1,8 +1,10 @@
 # PetStore Project
 
-## Pre-requisities
-1. Install [PostgreSQL database](https://www.postgresql.org/download/)
-2. Update the database connectivity details in `resources` as per your requirement
+## Purpose
+Demo application built for experimentation purpose only
+
+## Pre-requisites
+1. We are using Docker to install [PostgreSQL database](https://www.postgresql.org/download/). If you are interested in using a local or remote PostgreSQL installation, update the database connectivity details in `resources`. Here is the example of [pets-api application-docker.yml](./pets-api/src/main/resources/application-docker.yml).
 
 ## Services
 1. [Pets API](./pets-api/README.md)

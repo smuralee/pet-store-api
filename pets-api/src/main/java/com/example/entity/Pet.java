@@ -25,7 +25,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "PETS")
+@Table(name = "pets")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,10 +35,12 @@ public class Pet implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "PET_ID_SEQ", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "PET_ID_SEQ", allocationSize = 1)
+    @GeneratedValue(generator = "pet_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "pet_id_seq", allocationSize = 1)
     private Long id;
     private String name;
     private String description;
     private Integer age;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean deleted;
 }

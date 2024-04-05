@@ -67,10 +67,10 @@ class PetsControllerTest {
     void setUp() {
 
         list = Arrays.asList(
-                new Pet(1L, "Tom", "German Shepherd", 1),
-                new Pet(2L, "Emily", "Siberian Husky", 2),
-                new Pet(3L, "Catherine", "Siamese Cat", 3),
-                new Pet(4L, "Richard", "Persian Cat", 4)
+                new Pet(1L, "Tom", "German Shepherd", 1, false),
+                new Pet(2L, "Emily", "Siberian Husky", 2, false),
+                new Pet(3L, "Catherine", "Siamese Cat", 3, false),
+                new Pet(4L, "Richard", "Persian Cat", 4, false)
         );
         Counter counter = mock(Counter.class);
         when(registry.counter(any(String.class))).thenReturn(counter);

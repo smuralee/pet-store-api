@@ -32,9 +32,13 @@ management:
         http:
           server:
             requests: true
-otel:
-  propagators:
-    - tracecontext
-  resource:
-    attributes:
-      environment: docker
+  otel:
+    propagators:
+      - tracecontext
+      - b3
+    resource:
+      attributes:
+        service:
+          name: pets-api
+          namespace: pets-store
+        environment: docker

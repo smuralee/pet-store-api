@@ -1,7 +1,7 @@
 -- ###################################################################
 -- Not needed for the docker Postgres instance
 -- ###################################################################
-    
+
 -- Create the role for the database
 -- CREATE USER "pet-store" WITH LOGIN SUPERUSER PASSWORD 'pa55w0rd';
 
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS pets
     name        varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
     age         integer      NOT NULL,
+    is_deleted  boolean      NOT NULL DEFAULT false,
     CONSTRAINT pets_primary_key PRIMARY KEY (id)
 );
 GRANT ALL ON TABLE pets TO "pet-store";

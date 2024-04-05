@@ -18,7 +18,19 @@ package com.example.repository;
 
 import com.example.entity.Pet;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface PetsRepository extends JpaRepository<Pet, Long> {
 
+    @Query("from Pet p where p.deleted=false")
+    @Override
+    List<Pet> findAll();
+
+    @Modifying
+    @Query("update Pet p set p.deleted=true where p.id=?1")
+    @Override
+    void deleteById(Long id);
 }
