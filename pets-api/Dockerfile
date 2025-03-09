@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17
+FROM eclipse-temurin:21
 RUN useradd -u 101 alpha
 RUN mkdir -p /home/alpha/app && chown -R alpha:alpha /home/alpha/app
 WORKDIR /home/alpha/app
