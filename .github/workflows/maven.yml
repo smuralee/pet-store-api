@@ -34,8 +34,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        volumes:
-          - ${{ github.workspace }}/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
 
     steps:
     - uses: actions/checkout@v4
@@ -46,6 +44,32 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
+    
+    - name: Initialize PostgreSQL schema
+      run: |
+        # Wait for PostgreSQL to be ready
+        sleep 5
+        
+        # Create the database schema using the init.sql content
+        PGPASSWORD=pa55w0rd psql -h localhost -U pet-store -d pet-store -c "
+        CREATE TABLE IF NOT EXISTS pets
+        (
+            id          bigint       NOT NULL,
+            name        varchar(255) NOT NULL,
+            description varchar(255) NOT NULL,
+            age         integer      NOT NULL,
+            is_deleted  boolean      NOT NULL DEFAULT false,
+            CONSTRAINT pets_primary_key PRIMARY KEY (id)
+        );
+
+        CREATE SEQUENCE IF NOT EXISTS pet_id_seq
+            INCREMENT 1
+            START 1
+            MINVALUE 1
+            MAXVALUE 9223372036854775807
+            CACHE 1;
+        GRANT ALL ON SEQUENCE pet_id_seq TO \"pet-store\";
+        "
     
     - name: Build with Maven
       run: mvn -B package --file pom.xml
