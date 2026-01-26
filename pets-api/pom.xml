@@ -20,7 +20,7 @@
 	<maven.compiler.target>21</maven.compiler.target>
 	<junit-jupiter.version>5.12.0</junit-jupiter.version>
 	<mockito.version>5.16.0</mockito.version>
-	<assertj-core.version>3.27.3</assertj-core.version>
+	<assertj-core.version>3.27.7</assertj-core.version>
 	<maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
 	<spring-cloud.version>2024.0.0</spring-cloud.version>
 </properties>
